@@ -1,0 +1,57 @@
+site_name: Notes
+site_url: https://hari31416.github.io/Notes/
+repo_url: https://github.com/Hari31416/Notes
+repo_name: Notes
+site_author: Harikesh Kushwaha
+remote_branch: gh-pages
+site_description: "A collection of my notes as well as some external materials"
+remote_name: origin
+
+theme:
+  name: material
+  logo: assets/ml.png
+  favicon: assets/ml.png
+  features:
+    - navigation.instant
+    - navigation.top
+    - toc.integrate
+  palette:
+    primary: black
+  custom_dir: all_notebooks
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.arithmatex:
+      generic: true
+
+plugins:
+  - mknotebooks
+  - search
+  - mike
+
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+edit_uri: ""
+
+nav:
+  - Home: "index.md"
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/hari31416
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/hari31416
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/hari31416
+    - icon: fontawesome/brands/kaggle
+      link: https://www.kaggle.com/hari31416
+    - icon: fontawesome/brands/instagram
+      link: https://www.instagram.com/hari31416
+  version:
+    provider: mike
