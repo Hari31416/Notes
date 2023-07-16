@@ -1,0 +1,1751 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A collection of my notes as well as some external materials">
+      
+      
+        <meta name="author" content="Harikesh Kushwaha">
+      
+      
+        <link rel="canonical" href="https://hari31416.github.io/Notes/0.3/Notes/ML/Logistic_Regression/">
+      
+      
+        <link rel="prev" href="../Linear_Regression/">
+      
+      
+        <link rel="next" href="../Multiclass_Multioutput_Algorithm/">
+      
+      <link rel="icon" href="../../../assets/ml.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
+    
+    
+      
+        <title>Logistic Regression - Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/ansi-colours.css">
+    
+      <link rel="stylesheet" href="../../../css/jupyter-cells.css">
+    
+      <link rel="stylesheet" href="../../../css/pandas-dataframe.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#Contents" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Notes" class="md-header__button md-logo" aria-label="Notes" data-md-component="logo">
+      
+  <img src="../../../assets/ml.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Logistic Regression
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Hari31416/Notes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Notes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Notes" class="md-nav__button md-logo" aria-label="Notes" data-md-component="logo">
+      
+  <img src="../../../assets/ml.png" alt="logo">
+
+    </a>
+    Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Hari31416/Notes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Notes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Notes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Notes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          DL
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          DL
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DL/CNN/" class="md-nav__link">
+        CNN
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DL/Creating_NN_From_Scratch/" class="md-nav__link">
+        Creating NN From Scratch
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DL/Different_Initializations/" class="md-nav__link">
+        Different Initializations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DL/Neural_Networks/" class="md-nav__link">
+        Neural Networks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DL/Optimization_Methods/" class="md-nav__link">
+        Optimization Methods
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DL/Sequence_Models/" class="md-nav__link">
+        Sequence Models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DL/temp/" class="md-nav__link">
+        Temp
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          DSA
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          DSA
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Bitwise_operators/" class="md-nav__link">
+        Bitwise operators
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Doubly_Linked_List/" class="md-nav__link">
+        Doubly Linked List
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/LinkedList/" class="md-nav__link">
+        LinkedList
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Problems_GfG_Easy_1/" class="md-nav__link">
+        Problems GfG Easy 1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Problems_GfG_Easy_2/" class="md-nav__link">
+        Problems GfG Easy 2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Problems_GfG_Easy_3/" class="md-nav__link">
+        Problems GfG Easy 3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Problems_GfG_Easy_4/" class="md-nav__link">
+        Problems GfG Easy 4
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Problems_Leetcode_Easy_1/" class="md-nav__link">
+        Problems Leetcode Easy 1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Problems_Leetcode_Easy_2/" class="md-nav__link">
+        Problems Leetcode Easy 2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Problems_Leetcode_Easy_3/" class="md-nav__link">
+        Problems Leetcode Easy 3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Problems_Leetcode_Easy_4/" class="md-nav__link">
+        Problems Leetcode Easy 4
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Problems_Leetcode_Easy_5/" class="md-nav__link">
+        Problems Leetcode Easy 5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Problems_Leetcode_Easy_6/" class="md-nav__link">
+        Problems Leetcode Easy 6
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Problems_Leetcode_Hard_1/" class="md-nav__link">
+        Problems Leetcode Hard 1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Problems_Leetcode_Medium_1/" class="md-nav__link">
+        Problems Leetcode Medium 1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Problems_Leetcode_Medium_2/" class="md-nav__link">
+        Problems Leetcode Medium 2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Problems_Leetcode_Medium_3/" class="md-nav__link">
+        Problems Leetcode Medium 3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Recursion/" class="md-nav__link">
+        Recursion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Stack_and_Queue/" class="md-nav__link">
+        Stack and Queue
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DSA/Trees/" class="md-nav__link">
+        Trees
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+          Finance
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Finance
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Finance/Black_Scholes_Model/" class="md-nav__link">
+        Black Scholes Model
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Finance/CAPM/" class="md-nav__link">
+        CAPM
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Finance/Five_Factor_Model/" class="md-nav__link">
+        Five Factor Model
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Finance/Forward_Future/" class="md-nav__link">
+        Forward Future
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Finance/Market_Hypothesis/" class="md-nav__link">
+        Market Hypothesis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Finance/Module_1/" class="md-nav__link">
+        Module 1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Finance/Module_2/" class="md-nav__link">
+        Module 2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Finance/Module_3/" class="md-nav__link">
+        Module 3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Finance/Module_4/" class="md-nav__link">
+        Module 4
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Finance/Module_5/" class="md-nav__link">
+        Module 5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Finance/Module_6/" class="md-nav__link">
+        Module 6
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Finance/Module_7/" class="md-nav__link">
+        Module 7
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Finance/Working_With_pystock/" class="md-nav__link">
+        Working With pystock
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+          ML
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          ML
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Clustering/" class="md-nav__link">
+        Clustering
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Decision_Trees/" class="md-nav__link">
+        Decision Trees
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Ensemble_Learning/" class="md-nav__link">
+        Ensemble Learning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Feature_Selection/" class="md-nav__link">
+        Feature Selection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Linear_Regression/" class="md-nav__link">
+        Linear Regression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Logistic Regression
+      </a>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Multiclass_Multioutput_Algorithm/" class="md-nav__link">
+        Multiclass Multioutput Algorithm
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Nearest_Neighbors/" class="md-nav__link">
+        Nearest Neighbors
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Stochastic_Gradient_Descent/" class="md-nav__link">
+        Stochastic Gradient Descent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Support_Vector_Machine/" class="md-nav__link">
+        Support Vector Machine
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+          Python
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Python
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Python/OOP/" class="md-nav__link">
+        OOP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Python/Programming_Language_Terms/" class="md-nav__link">
+        Programming Language Terms
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Python/Programming_Paradigms/" class="md-nav__link">
+        Programming Paradigms
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Python/Scope_and_Namespace/" class="md-nav__link">
+        Scope and Namespace
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Python/Terminology/" class="md-nav__link">
+        Terminology
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Python/Variables_and_Pointers/" class="md-nav__link">
+        Variables and Pointers
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script>
+(function() {
+  function addWidgetsRenderer() {
+    var requireJsScript = document.createElement('script');
+    requireJsScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js';
+
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var jupyterWidgetsScript = document.createElement('script');
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        widgetRendererSrc = 'jupyter-js-widgets@*/dist/embed.js';
+      }
+    } catch(e) {}
+
+    jupyterWidgetsScript.src = widgetRendererSrc;
+
+    document.body.appendChild(requireJsScript);
+    document.body.appendChild(jupyterWidgetsScript);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+</script>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Contents">Contents<a href="#Contents"></a></h1>
+<div class="highlight"><pre><span></span><code>    &lt;ol&gt;
+    &lt;li&gt;&lt;a class=&quot;&quot; href=&quot;#Logistic-Regression-in-Scikit-Learn&quot;&gt;Logistic Regression in Scikit-Learn&lt;/a&gt;&lt;/li&gt;
+</code></pre></div>
+<ol><li><a class="" href="#Logistic-Function">Logistic Function</a></li>
+<li><a class="" href="#LogisticRegression-Class">LogisticRegression Class</a></li>
+<li><a class="" href="#Solvers">Solvers</a></li>
+<li><a class="" href="#Parameters">Parameters</a></li>
+<li><a class="" href="#Attributes">Attributes</a></li>
+</ol>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="logistic-regression-in-scikit-learn">Logistic Regression in Scikit-Learn</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Logistic regression, despite its name, is a linear model for classification rather than regression. Logistic regression is also known in the literature as logit regression, maximum-entropy classification (MaxEnt) or the log-linear classifier. In this model, the probabilities describing the possible outcomes of a single trial are modeled using a logistic function.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="logistic-function">Logistic Function</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Logistic function is defined as:
+$$
+f(x) = \frac{1}{1+e^{-x}}
+$$</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcdefaults</span><span class="p">()</span>
+</code></pre></div>
+
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="highlight"><pre><span></span><code><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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"
+>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="logisticregression-class"><code>LogisticRegression</code> Class</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Logistic regression is implemented in <code>LogisticRegression</code>. This implementation can fit binary, One-vs-Rest, or multinomial logistic regression with optional <span class="arithmatex">\(l_1, l_2\)</span> or Elastic-Net regularization.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As an optimization problem, binary class <span class="arithmatex">\(l_2\)</span> penalized logistic regression minimizes the following cost function:
+$$
+\min_{w, c} \frac{1}{2}w^T w + C \sum_{i=1}^n \log(\exp(- y_i (X_i^T w + c)) + 1) .
+$$
+Similarly, for <span class="arithmatex">\(l_1\)</span> regularization, the cost function is:
+$$
+\min_{w, c} |w|<em>1 + C \sum</em>{i=1}^n \log(\exp(- y_i (X_i^T w + c)) + 1).
+$$
+while the elastic net equivalent is:
+$$
+\min_{w, c} \frac{1 - \rho}{2}w^T w + \rho |w|<em>1 + C \sum</em>{i=1}^n \log(\exp(- y_i (X_i^T w + c)) + 1),
+$$</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote>
+<p>Note that, in this notation, it’s assumed that the target <span class="arithmatex">\(y_i\)</span> takes values in the set <span class="arithmatex">\(\{-1, 1\}\)</span> at trial <span class="arithmatex">\(i\)</span>.</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="solvers">Solvers</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The solvers implemented in the class LogisticRegression are “liblinear”, “newton-cg”, “lbfgs”, “sag” and “saga”:</p>
+<p>The solver “liblinear” uses a coordinate descent (CD) algorithm, and relies on the C++ LIBLINEAR library, which is shipped with scikit-learn. However, the CD algorithm implemented in liblinear cannot learn a true multinomial (multiclass) model; instead, the optimization problem is decomposed in a “one-vs-rest” fashion so separate binary classifiers are trained for all classes. This happens under the hood, so LogisticRegression instances using this solver behave as multiclass classifiers. </p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The “lbfgs”, “sag” and “newton-cg” solvers only support <span class="arithmatex">\(l_1\)</span> regularization or no regularization, and are found to converge faster for some high-dimensional data. Setting multi_class to “multinomial” with these solvers learns a true multinomial logistic regression model, which means that its probability estimates should be better calibrated than the default “one-vs-rest” setting.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The “sag” solver uses Stochastic Average Gradient descent. It is faster than other solvers for large datasets, when both the number of samples and the number of features are large.</p>
+<p>The “saga” solver is a variant of “sag” that also supports the non-smooth <code>penalty="l1"</code>. This is therefore the solver of choice for sparse multinomial logistic regression. It is also the only solver that supports <code>penalty="elasticnet"</code>.</p>
+<p>The “lbfgs” is an optimization algorithm that approximates the Broyden–Fletcher–Goldfarb–Shanno algorithm, which belongs to quasi-Newton methods. The “lbfgs” solver is recommended for use for small data-sets but for larger datasets its performance suffers.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following table summarizes the penalties supported by each solver:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 17%">
+<col style="width: 13%">
+<col style="width: 17%">
+<col style="width: 11%">
+<col style="width: 12%">
+</colgroup>
+<tbody>
+<tr class="row-odd"><td></td>
+<td colspan="5"><p><strong>Solvers</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Penalties</strong></p></td>
+<td><p><strong>‘liblinear’</strong></p></td>
+<td><p><strong>‘lbfgs’</strong></p></td>
+<td><p><strong>‘newton-cg’</strong></p></td>
+<td><p><strong>‘sag’</strong></p></td>
+<td><p><strong>‘saga’</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>Multinomial + L2 penalty</p></td>
+<td><p>no</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>OVR + L2 penalty</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>Multinomial + L1 penalty</p></td>
+<td><p>no</p></td>
+<td><p>no</p></td>
+<td><p>no</p></td>
+<td><p>no</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>OVR + L1 penalty</p></td>
+<td><p>yes</p></td>
+<td><p>no</p></td>
+<td><p>no</p></td>
+<td><p>no</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>Elastic-Net</p></td>
+<td><p>no</p></td>
+<td><p>no</p></td>
+<td><p>no</p></td>
+<td><p>no</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>No penalty (‘none’)</p></td>
+<td><p>no</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Behaviors</strong></p></td>
+<td colspan="5"></td>
+</tr>
+<tr class="row-even"><td><p>Penalize the intercept (bad)</p></td>
+<td><p>yes</p></td>
+<td><p>no</p></td>
+<td><p>no</p></td>
+<td><p>no</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p>Faster for large datasets</p></td>
+<td><p>no</p></td>
+<td><p>no</p></td>
+<td><p>no</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>Robust to unscaled datasets</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+<td><p>yes</p></td>
+<td><p>no</p></td>
+<td><p>no</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For more informations, see the <a href="https://arxiv.org/abs/1407.0202">paper</a>.</p>
+<p>For comparision of performance of different solvers, see the <a href="http://www.fuzihao.org/blog/2016/01/16/Comparison-of-Gradient-Descent-Stochastic-Gradient-Descent-and-L-BFGS/">article</a>. </p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="parameters">Parameters</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here are some of the parameters taken by the <code>LogisticRegression</code> class:
+* <strong>penalty</strong>: {‘l1’, ‘l2’, ‘elasticnet’, ‘none’}, default=’l2’</p>
+<div class="highlight"><pre><span></span><code>Specify the norm of the penalty:
+
+* &#39;none&#39;: no penalty is added;
+
+* &#39;l2&#39;: add a L2 penalty term and it is the default choice;
+
+* &#39;l1&#39;: add a L1 penalty term;
+
+* &#39;elasticnet&#39;: both L1 and L2 penalty terms are added.
+</code></pre></div>
+<ul>
+<li>
+<p><strong>tol</strong>: float, default=1e-4</p>
+<p>Tolerance for stopping criteria.
+* <strong>C</strong>: float, default=1.0</p>
+<p>Inverse of regularization strength; must be positive. Regularization is applied when C is greater than 0.
+* <strong>fit_intercept</strong>: bool, default=True</p>
+<p>Whether to calculate the intercept for this model. If set to false, no intercept will be used in calculations (i.e. data is expected to be centered).
+* <strong>intercept_scaling</strong>: float, default=1.0</p>
+<p>When self.fit_intercept is True, instance vector y becomes y = intercept_scaling * y + intercept. Must be positive.
+* <strong>class_weight</strong>: {dict, ‘balanced’}, default=None</p>
+<p>Weights associated with classes in the form {class_label: weight}. If not given, all classes are supposed to have weight one. For multi-output problems, a list of dicts can be provided in the same order as the columns of y.
+The “balanced” mode uses the values of y to automatically adjust weights inversely proportional to class frequencies in the input data as n_samples / (n_classes * np.bincount(y)).
+* <strong>solver</strong>: {‘newton-cg’, ‘lbfgs’, ‘liblinear’, ‘sag’, ‘saga’}, default=’lbfgs’</p>
+<p>Algorithm to use in the optimization problem. <br />
+<em> </em><em>max_iter</em>*: int, default=100</p>
+<p>Maximum number of iterations for the solver.  <br />
+<em> </em><em>multi_class</em>*: {‘ovr’, ‘multinomial’}, default=’ovr’</p>
+<p>If the option chosen is ‘ovr’, then a binary problem is fit for each label. For ‘multinomial’ the loss minimised is the multinomial loss fit across the entire probability distribution, even when the data is binary. ‘multinomial’ is unavailable when solver=’liblinear’. ‘auto’ selects ‘ovr’ if the data is binary, or if solver=’liblinear’, and otherwise selects ‘multinomial’.
+* <strong>warm_start</strong>: bool, default=False</p>
+<p>When set to True, reuse the solution of the previous call to fit as initialization, otherwise, just erase the previous solution.
+* <strong>l1_ratio</strong>: float, default=None</p>
+<p>The Elastic Net mixing parameter, with 0 &lt;= l1_ratio &lt;= 1. l1_ratio=0 corresponds to L2 penalty, l1_ratio=1 to L1.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The choice of the algorithm depends on the penalty chosen: Supported penalties by solver:
+* ‘newton-cg’ - [‘l2’, ‘none’]
+* ‘lbfgs’ - [‘l2’, ‘none’]</p>
+<ul>
+<li>
+<p>‘liblinear’ - [‘l1’, ‘l2’]</p>
+</li>
+<li>
+<p>‘sag’ - [‘l2’, ‘none’]</p>
+</li>
+<li>
+<p>‘saga’ - [‘elasticnet’, ‘l1’, ‘l2’, ‘none’]</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="attributes">Attributes</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The class has the following attributes:
+* <strong>classes_</strong>: array of shape (n_classes,)</p>
+<div class="highlight"><pre><span></span><code>A list of class labels known to the classifier.
+</code></pre></div>
+<ul>
+<li>
+<p><strong>coef_</strong>: array, shape (1, n_features) or (n_classes, n_features)</p>
+<p>Coefficient of the features in the decision function.</p>
+<p><code>coef_</code> is of shape (1, n_features) when the given problem is binary. In particular, when <code>multi_class='multinomial'</code>, <code>coef_</code> corresponds to outcome 1 (True) and -<code>coef_</code> corresponds to outcome 0 (False).
+* <strong>intercept_</strong>: array, shape (1,) or (n_classes,)</p>
+<p>Intercept (a.k.a. bias) added to the decision function.</p>
+<p>If <code>fit_intercept</code> is set to False, the intercept is set to zero. <code>intercept_</code> is of shape (1,) when the given problem is binary. In particular, when <code>multi_class='multinomial'</code>, <code>intercept_</code> corresponds to outcome 1 (True) and -<code>intercept_</code> corresponds to outcome 0 (False).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/hari31416" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/hari31416" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/hari31416" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.kaggle.com/hari31416" target="_blank" rel="noopener" title="www.kaggle.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M304.2 501.5 158.4 320.3 298.2 185c2.6-2.7 1.7-10.5-5.3-10.5h-69.2c-3.5 0-7 1.8-10.5 5.3L80.9 313.5V7.5q0-7.5-7.5-7.5H21.5Q14 0 14 7.5v497q0 7.5 7.5 7.5h51.9q7.5 0 7.5-7.5v-109l30.8-29.3 110.5 140.6c3 3.5 6.5 5.3 10.5 5.3h66.9q5.25 0 6-3z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.instagram.com/hari31416" target="_blank" rel="noopener" title="www.instagram.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.top", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.b4d07000.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
