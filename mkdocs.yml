@@ -102,6 +102,28 @@ nav:
           - Notes/Python/Scope_and_Namespace.ipynb
           - Notes/Python/Terminology.ipynb
           - Notes/Python/Variables_and_Pointers.ipynb
+      - Numerical_Methods:
+          - Notes/Numerical_Methods/Basics_of_FDTD.ipynb
+          - Notes/Numerical_Methods/Curve_Fitting.ipynb
+          - Notes/Numerical_Methods/Eigenvalue_Eigenvector.ipynb
+          - Notes/Numerical_Methods/FD_and_Boris_Method.ipynb
+          - Notes/Numerical_Methods/Interpolation.ipynb
+          - Notes/Numerical_Methods/Numerical_Differentiation.ipynb
+          - Notes/Numerical_Methods/Numerical_Integration.ipynb
+          - Notes/Numerical_Methods/ODE.ipynb
+          - Notes/Numerical_Methods/Root_Finding.ipynb
+          - Notes/Numerical_Methods/Single_Particle_Motions.ipynb
+          - Notes/Numerical_Methods/Solving_ODEs.ipynb
+          - Notes/Numerical_Methods/Some_ODEs.ipynb
+      - manim:
+          - Notes/manim/3Dscenes.ipynb
+          - Notes/manim/Animations.ipynb
+          - Notes/manim/Camera_Resolution.ipynb
+          - Notes/manim/manim_in_Jupyter.ipynb
+          - Notes/manim/manim_output_settings.ipynb
+          - Notes/manim/Mobjects.ipynb
+          - Notes/manim/Text_and_Formula.ipynb
+
 extra:
   social:
     - icon: fontawesome/brands/github
